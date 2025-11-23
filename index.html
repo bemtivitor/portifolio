@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Vitor Soares</title>
+    
+    <style>
+        /* --- Estilos base --- */
+        body {
+            background-color: #171a21; 
+            color: white;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        /* --- SCROLLBAR PERSONALIZADA --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f1115; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3d4450; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #66c0f4; 
+        }
+
+        /* --- LOADING SCREEN --- */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background-color: #000; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-gif {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        #loading-message {
+            margin-top: 20px;
+            font-size: 1.25rem;
+            color: #ccc;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .shadow-text {
+            text-shadow: 0 0 5px #facc15, 0 0 10px #facc15; 
+        }
+        
+        .status-dot {
+            box-shadow: 0 0 8px #22c55e;
+        }
+    </style>
+</head>
+
+<body class="relative w-full"> 
+
+    <div id="loading-screen">
+        <img id="loading-gif" src="https://i.pinimg.com/originals/06/b4/c5/06b4c519c072ce268c52747d1c604105.gif" alt="Loading Animation" />
+        <p id="loading-message">Carregando Sistema...</p>
+    </div>
+
+    <video id="background-video" autoplay muted loop playsinline class="video-background">
+        <source type="video/webm">
+    </video>
+
+    <header class="w-full h-[90px] shadow-lg border-b border-black z-30 sticky top-0 bg-[#171a21]/90 backdrop-blur-sm"> 
+        <div class="max-w-[1400px] h-full mx-auto flex items-center justify-between px-4"> 
+            
+            <div class="flex items-center gap-3">
+                <img src="Imagens/canvas.png" alt="Logo Portfolio" class="h-12 w-auto object-contain hover:opacity-80 transition cursor-pointer">
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-MotivaSans"> 
+                <a href="https://github.com/bemtivitor" class="menuitem supernav hover:text-[#66c0f4] transition">GitHub</a>
+                <a href="https://www.linkedin.com/in/vitor-alexandre-598243138/" class="menuitem supernav hover:text-[#66c0f4] transition">LinkedIn</a>
+                <a href="https://www.instagram.com/vitor_aleksandr/" class="menuitem supernav hover:text-[#66c0f4] transition">Instagram</a>
+                <a href="https://steamcommunity.com/id/qrozny" class="menuitem supernav hover:text-[#66c0f4] transition">Steam</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                 <img src="https://avatars.fastly.steamstatic.com/46944fa7209caa6901fad6adf9e3bb02bf926627_full.jpg" alt="Avatar" class="w-10 h-10 rounded-full border border-gray-600 shadow-sm object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="w-full max-w-[1400px] mx-auto mt-8 px-4 relative z-20 pb-10">
+
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+            <div class="flex-1 flex flex-col gap-8">
+
+                <div class="profile_header flex flex-col md:flex-row gap-6">
+                    <div class="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
+                        <img src="https://avatars.fastly.steamstatic.com/46944fa7209caa6901fad6adf9e3bb02bf926627_full.jpg" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="flex-1 flex flex-col gap-2 bg-transparent justify-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-white flex items-center gap-2 shadow-text-sm">
+                                Vitor A Andrade Soares
+                            </h1>
+                            <div class="text-gray-300 flex items-center gap-2 mt-1 text-sm">
+                                <img class="w-4 h-3" src="https://community.fastly.steamstatic.com/public/images/countryflags/br.gif" alt="Brasil">
+                                Santa Catarina, Balneário Camboriú, Brazil
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <a href="#" id="viewProfileBtn" class="text-blue-400 hover:text-blue-300 transition text-sm bg-black/20 px-3 py-1 rounded-md border border-transparent hover:border-blue-500/50">Ver mais informações</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-6">
+                    <h2 class="text-xl font-bold text-white uppercase tracking-wider border-b border-gray-700/50 pb-2">
+                        Painel de Controle
+                    </h2>
+                    
+                    <div id="central-content" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl min-h-[320px] flex flex-col border border-gray-800/50 hover:border-blue-500/30 transition duration-300">
+                            <h3 class="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2">
+                                💼 Experiência & Projetos
+                            </h3>
+                            <div class="space-y-4 overflow-y-auto pr-2 custom-scrollbar max-h-[250px]">
+                                
+                                <div class="bg-gray-900/40 p-3 rounded border-l-2 border-blue-500">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="text-white font-bold text-sm">Energy Simples</h4>
+                                        <span class="text-[10px] bg-blue-900 text-blue-200 px-1 rounded">Full Stack</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Plataforma de gestão de energia. Foco total em performance back-end e integração.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[10px] text-gray-500 border border-gray-700 px-1 rounded">PHP</span>
+                                        <span class="text-[10px] text-gray-500 border border-gray-700 px-1 rounded">jQuerry</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-900/40 p-3 rounded border-l-2 border-blue-700">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="text-white font-bold text-sm">Havan Labs</h4>
+                                        <span class="text-[10px] bg-blue-900 text-blue-200 px-1 rounded">Freelancer</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">DevOps Junior. Automação de pipelines CI/CD e monitoramento de infraestrutura.</p>
+                                </div>
+
+                                <div class="bg-gray-900/40 p-3 rounded border-l-2 border-purple-500">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="text-white font-bold text-sm">GTA V Roleplay</h4>
+                                        <span class="text-[10px] bg-purple-900 text-purple-200 px-1 rounded">Modder</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Desenvolvimento de scripts complexos em .Lua, otimização de recursos e sistemas exclusivos.</p>
+                                </div>
+
+                                <div class="bg-gray-900/40 p-3 rounded border-l-2 border-red-600">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="text-white font-bold text-sm">Game Tools (LoL/Val)</h4>
+                                        <span class="text-[10px] bg-red-900 text-red-200 px-1 rounded">Dev</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Desenvolvimento de scripts para League of Legends e Spoofer HWID para Valorant e LoL (Bypass).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl min-h-[320px] border border-gray-800/50 hover:border-green-500/30 transition duration-300 flex flex-col">
+                            <h3 class="text-lg font-bold text-green-400 mb-2 flex items-center justify-between">
+                                <span>🟢 Status dos Produtos</span>
+                                <span class="text-xs font-normal text-gray-500">Live Feed</span>
+                            </h3>
+                            
+                            <div class="flex-grow bg-[#0f1115] rounded-md p-2 overflow-y-auto custom-scrollbar border border-gray-800 shadow-inner max-h-[250px]">
+                                <ul class="space-y-1">
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">hanbot</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">sentry-bypass</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">combo-es-hanbot</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">legend-sense</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">emulator-vgk</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">valorant-internal</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">lunar-dual</span></li>
+                                    <li class="flex items-center gap-3 p-2 hover:bg-gray-800/50 rounded transition"><span class="w-2.5 h-2.5 rounded-full bg-green-500 status-dot animate-pulse"></span><span class="text-sm text-gray-300 font-mono">dreyn-guard</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl min-h-[250px] border border-gray-800/50 hover:border-purple-500/30 transition duration-300">
+                            <h3 class="text-lg font-bold text-purple-400 mb-4 flex items-center gap-2">
+                                🛠️ Meus Serviços
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                
+                                <div class="service-item bg-gray-800/40 p-2 rounded border border-gray-700 hover:border-purple-500 transition flex flex-col items-center text-center group cursor-pointer hover:bg-purple-900/20"
+                                     data-title="Bots Discord"
+                                     data-desc="Desenvolvimento de bots complexos para Discord em Node.js ou Python. Sistemas de moderação, economia, integração com APIs externas, logs automáticos e painéis de controle web.">
+                                    <span class="text-xl group-hover:scale-110 transition">🤖</span>
+                                    <span class="text-xs font-bold text-gray-300 mt-1">Bots Discord</span>
+                                </div>
+
+                                <div class="service-item bg-gray-800/40 p-2 rounded border border-gray-700 hover:border-purple-500 transition flex flex-col items-center text-center group cursor-pointer hover:bg-purple-900/20"
+                                     data-title="Engenharia Reversa"
+                                     data-desc="Análise profunda de software e binários. Identificação de vulnerabilidades, entendimento de lógica de funcionamento interna (Assembly/C++) e criação de provas de conceito para segurança.">
+                                    <span class="text-xl group-hover:scale-110 transition">🔒</span>
+                                    <span class="text-xs font-bold text-gray-300 mt-1">Eng. Reversa</span>
+                                </div>
+
+                                <div class="service-item bg-gray-800/40 p-2 rounded border border-gray-700 hover:border-purple-500 transition flex flex-col items-center text-center group cursor-pointer hover:bg-purple-900/20"
+                                     data-title="Telas Web & Dashboards"
+                                     data-desc="Criação de interfaces web modernas e responsivas utilizando React, Tailwind CSS e PHP. Especialidade em painéis administrativos (Dashboards) para gestão de dados e usuários.">
+                                    <span class="text-xl group-hover:scale-110 transition">🌐</span>
+                                    <span class="text-xs font-bold text-gray-300 mt-1">Telas Web</span>
+                                </div>
+
+                                <div class="service-item bg-gray-800/40 p-2 rounded border border-gray-700 hover:border-purple-500 transition flex flex-col items-center text-center group cursor-pointer hover:bg-purple-900/20"
+                                     data-title="Automação de Processos"
+                                     data-desc="Scripts em Python ou Bash para automatizar tarefas repetitivas. Web scraping, manipulação de arquivos em massa e automação de fluxos de trabalho no Windows/Linux.">
+                                    <span class="text-xl group-hover:scale-110 transition">⚙️</span>
+                                    <span class="text-xs font-bold text-gray-300 mt-1">Automação</span>
+                                </div>
+
+                                <div class="service-item bg-gray-800/40 p-2 rounded border border-gray-700 hover:border-purple-500 transition flex flex-col items-center text-center group cursor-pointer hover:bg-purple-900/20"
+                                     data-title="IA Customizada"
+                                     data-desc="Implementação e treinamento de Inteligência Artificial para uso pessoal ou empresarial. Chatbots inteligentes, análise de dados e integração com APIs de LLM (OpenAI/Anthropic).">
+                                    <span class="text-xl group-hover:scale-110 transition">🧠</span>
+                                    <span class="text-xs font-bold text-gray-300 mt-1">IA Custom</span>
+                                </div>
+
+                                <div class="service-item bg-gray-800/40 p-2 rounded border border-gray-700 hover:border-purple-500 transition flex flex-col items-center text-center group cursor-pointer hover:bg-purple-900/20"
+                                     data-title="Otimização de PC (AnyDesk)"
+                                     data-desc="Serviço remoto via AnyDesk para otimização completa do Windows. Debloating, ajustes de registro para FPS, redução de input lag e configurações de rede para jogos competitivos.">
+                                    <span class="text-xl group-hover:scale-110 transition">🚀</span>
+                                    <span class="text-xs font-bold text-gray-300 mt-1">Otimização PC</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col gap-6">
+                            
+                            <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl border border-gray-800/50 hover:border-yellow-500/30 transition duration-300 flex items-center justify-center">
+                                <a href="https://drive.google.com/drive/folders/1Dj8sPqpP_KcOJAYQlt4_VltejRnVR_XM?usp=sharing" target="_blank" class="w-full bg-yellow-600/20 hover:bg-yellow-600/40 border border-yellow-600/50 text-yellow-400 font-bold py-4 rounded-lg flex items-center justify-center gap-3 transition group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-google-drive group-hover:scale-110 transition" viewBox="0 0 16 16">
+                                        <path d="M12.043 2h-6.086L4 5.333h10.043L12.043 2zM3.314 5.667 1.229 9.286 4.271 14.571 8.438 7.333H3.314zM8.905 8 6.819 11.619 8.857 15.167H14.952L10.99 8.333H8.905z"/>
+                                    </svg>
+                                    Acessar Drive (Design/Portfolio)
+                                </a>
+                            </div>
+
+                            <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl border border-gray-800/50 hover:border-red-500/30 transition duration-300">
+                                <h3 class="text-lg font-bold text-red-400 mb-4 flex items-center gap-2">
+                                    🔗 Conecte-se
+                                </h3>
+                                <div class="grid grid-cols-2 gap-3 text-sm">
+                                    <a href="https://wa.me/+5579996416480" target="_blank" class="flex items-center gap-2 bg-green-900/20 p-2 rounded hover:bg-green-900/40 hover:text-green-400 text-gray-300 transition border border-green-900/30">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+                                            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/>
+                                        </svg>
+                                        WhatsApp
+                                    </a>
+                                    <a href="https://github.com/bemtivitor" class="flex items-center gap-2 bg-gray-800/30 p-2 rounded hover:bg-gray-700/50 hover:text-white text-gray-300 transition">
+                                        Github
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/vitor-alexandre-598243138/" class="flex items-center gap-2 bg-gray-800/30 p-2 rounded hover:bg-gray-700/50 hover:text-white text-gray-300 transition">
+                                        LinkedIn
+                                    </a>
+                                    <a href="mailto:vitorxandi760@gmail.com" class="flex items-center gap-2 bg-gray-800/30 p-2 rounded hover:bg-gray-700/50 hover:text-white text-gray-300 transition">
+                                        Email
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl min-h-[250px] flex flex-col border border-gray-800/50 hover:border-green-500/30 transition duration-300">
+                            <h3 class="text-lg font-bold text-green-400 mb-4 flex items-center gap-2">
+                                🎧 Spotify
+                            </h3>
+                            <div class="flex-grow">
+                                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/0ZwvFgHfUMm9ABLpoP6Hrx?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                        </div>
+
+                        <div class="bloco-central bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl min-h-[250px] border border-gray-800/50 hover:border-orange-500/30 transition duration-300 flex flex-col">
+                            <h3 class="text-lg font-bold text-orange-400 mb-4 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-collection-play" viewBox="0 0 16 16">
+                                  <path d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v1zm2 2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5v1zm-2 2a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v1zm2 2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5v1zm-4 2a2 2 0 0 1-2-2V5.829l-2 1.151V12a2 2 0 0 0 2 2h11.614l-2-1.151H2.414a1 1 0 0 1-1-1z"/>
+                                </svg>
+                                Animes/Mangas Favoritos
+                            </h3>
+                            
+                            <div class="grid grid-cols-3 gap-3">
+                                <a href="https://www.crunchyroll.com/pt-br/series/GYX0ZW80R/soul-eater" target="_blank" class="group relative overflow-hidden rounded-md border border-gray-700 hover:border-orange-400 transition cursor-pointer aspect-[2/3]">
+                                    <img src="https://imgsrv.crunchyroll.com/cdn-cgi/image/fit=contain,format=auto,quality=85,width=480,height=720/catalog/crunchyroll/1b083a97efcac96d6f3f6c3880321f93.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                </a>
+                                <a href="https://www.crunchyroll.com/pt-br/series/GG5H5XQX4/frieren-beyond-journeys-end" target="_blank" class="group relative overflow-hidden rounded-md border border-gray-700 hover:border-orange-400 transition cursor-pointer aspect-[2/3]">
+                                    <img src="Imagens/9245ec6c-32dd-49ee-b6d0-29ee969ba261.jpg" alt="Friren" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                </a>
+                                <a href="https://www.crunchyroll.com/pt-br/series/GY3VKX1MR/hunter-x-hunter" target="_blank" class="group relative overflow-hidden rounded-md border border-gray-700 hover:border-orange-400 transition cursor-pointer aspect-[2/3]">
+                                    <img src="Imagens/hxh.jpg" alt="Hunter x Hunter" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-80 flex-shrink-0 flex flex-col gap-6">
+                
+                <div class="flex-shrink-0 flex flex-col gap-4 bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-lg shadow-xl w-full border border-gray-800/50">
+                    <div class="flex items-center justify-between">
+                        <span class="text-white text-xl font-bold">Level</span>
+                        <span class="text-xl font-extrabold text-green-300 bg-gray-900/80 px-4 py-1 border-2 border-green-500 rounded-md shadow-[0_0_10px_rgba(34,197,94,0.5)]">
+                            21
+                        </span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-green-500 w-[75%] shadow-[0_0_5px_#22c55e]"></div>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-gray-900/50 p-3 rounded-lg border border-gray-700 w-full mt-2 hover:bg-gray-800/50 transition cursor-pointer">
+                        <div class="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-gray-500 shadow-md">
+                            <img src="Imagens/images.png" alt="Badge" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-white flex flex-col justify-center min-w-0 flex-grow">
+                            <div class="font-semibold text-base truncate">Ciencias da Computação</div>
+                            <div class="text-blue-300 text-sm font-medium">200 XP</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0 flex flex-col gap-6 bg-black bg-opacity-40 backdrop-blur-sm p-5 rounded-md shadow-lg w-full text-gray-200 font-sans border border-gray-800/50">
+
+                    <div class="profile_in_game persona online bg-gray-900/30 p-3 rounded border-l-2 border-green-500">
+                        <div class="text-green-400 text-base font-bold">Online</div>
+                        <div class="text-sm text-gray-300 mt-1">Coding: <span class="text-blue-300 font-mono">my_dreams</span></div>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center justify-between text-base border-b border-gray-700/50 pb-1">
+                            <a href="#" class="text-white hover:underline font-semibold">Certificações</a>
+                            <span class="text-gray-400 bg-gray-800 px-2 rounded text-sm">23</span>
+                        </div>
+                        <div class="flex flex-wrap gap-3 mt-1"> 
+                            <div class="relative group w-11 h-11 rounded-md overflow-hidden border border-gray-600 bg-gray-900/50 hover:border-blue-400 transition cursor-pointer p-0.5">
+                                <img src="Imagens/IFSICON.png" alt="IFS" class="w-full h-full object-contain">
+                            </div>
+                            <div class="relative group w-11 h-11 rounded-md overflow-hidden border border-gray-600 bg-gray-900/50 hover:border-blue-400 transition cursor-pointer">
+                                <img src="https://store.fastly.steamstatic.com/public/images/loyalty/reactions/still/11.png?v=5" alt="Award" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                            </div>
+                             <div class="relative group w-11 h-11 rounded-md overflow-hidden border border-gray-600 bg-gray-900/50 hover:border-blue-400 transition cursor-pointer">
+                                <img src="https://store.fastly.steamstatic.com/public/images/loyalty/reactions/still/13.png?v=5" alt="Award" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center justify-between text-base border-b border-gray-700/50 pb-1">
+                            <a href="#" class="text-white hover:underline font-semibold">Skills</a>
+                            <span class="text-gray-400 bg-gray-800 px-2 rounded text-sm">6+</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-1 bg-gray-900/30 p-3 rounded-lg">
+                            <div class="w-9 h-9 rounded-sm overflow-hidden hover:scale-110 transition p-0.5 bg-gray-800/50" title="Lua"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg" class="w-full h-full object-contain"></div>
+                            <div class="w-9 h-9 rounded-sm overflow-hidden hover:scale-110 transition p-0.5 bg-gray-800/50" title="PHP"><img src="Imagens/php.svg" class="w-full h-full object-contain"></div>
+                            <div class="w-9 h-9 rounded-sm overflow-hidden hover:scale-110 transition p-0.5 bg-gray-800/50" title="JavaScript"><img src="Imagens/js.png" class="w-full h-full object-contain"></div>
+                            <div class="w-9 h-9 rounded-sm overflow-hidden hover:scale-110 transition p-0.5 bg-gray-800/50" title="SQL"><img src="Imagens/SQLICON.png" class="w-full h-full object-contain"></div>
+                            <div class="w-9 h-9 rounded-sm overflow-hidden hover:scale-110 transition p-0.5 bg-gray-800/50" title="Docker"><img src="Imagens/DOCKERS.jpg" class="w-full h-full object-cover"></div>
+                            <div class="w-9 h-9 rounded-sm overflow-hidden hover:scale-110 transition p-0.5 bg-gray-800/50" title="C++"><img src="Imagens/c.png" class="w-full h-full object-contain"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-1 text-sm bg-gray-900/30 p-3 rounded-lg">
+                        <a href="https://github.com/bemtivitor?tab=repositories" class="flex justify-between items-center py-2 px-2 hover:bg-gray-700/50 rounded transition group">
+                            <span class="text-gray-300 group-hover:text-white">Github Repositories</span>
+                            <span class="text-gray-400 bg-gray-800 px-2 rounded text-xs group-hover:text-white">10+</span>
+                        </a>
+                        <a href="Imagens/VITOR ALEXANDRE.pdf" class="flex justify-between items-center py-2 px-2 hover:bg-gray-700/50 rounded transition group">
+                            <span class="text-gray-300 group-hover:text-white">CV/Curriculo</span>
+                            <span class="text-gray-400 group-hover:text-white">📄</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div> </div> 
+        
+        <div id="profilePopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50 backdrop-blur-sm">
+            <div class="bg-[#1b2838] p-6 rounded-xl max-w-xl w-full text-white border border-gray-700 shadow-2xl">
+                <h2 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2 flex items-center gap-2">
+                    📂 Arquivo Pessoal: Vitor Soares
+                </h2>
+                <div class="text-sm leading-6 text-gray-300 space-y-5 max-h-[75vh] overflow-y-auto pr-2 custom-scrollbar">
+                    
+                    <p class="bg-red-900/20 p-3 rounded border-l-4 border-red-500 text-red-200 text-xs flex gap-2 items-start">
+                        <span class="text-lg">⚠️</span>
+                        <span><strong class="text-red-400">SYSTEM ALERT:</strong> Cusioso né? Seja Bem vindo, Sobre os projetos sinta-se livre se quiser me mandar mensagem, vai que viramos melhores amigos.</span>
+                    </p>
+                    
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            👤 Sobre o Operador
+                        </h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            De São Paulo para Santa Catarina. Com apenas 21 anos, moro sozinho e transformo cafeína em código (e soluções). 
+                            Sou movido pela vontade de criar, seja desenvolvendo sistemas complexos ou praticando engenharia reversa para 
+                            <span class="text-purple-300 italic">"dar trabalho para empresa preguiçosa"</span> e gosto de musica alta enquanto trabalho.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-3 mt-3">
+                            <div class="bg-gray-800/50 p-2 rounded border border-gray-700 flex items-center gap-2">
+                                <span>📍</span> <span class="text-xs">SP ➔ SC (Oportunidades)</span>
+                            </div>
+                            <div class="bg-gray-800/50 p-2 rounded border border-gray-700 flex items-center gap-2">
+                                <span>🎂</span> <span class="text-xs">21 Anos (Lvl 21)</span>
+                            </div>
+                            <div class="bg-gray-800/50 p-2 rounded border border-gray-700 flex items-center gap-2">
+                                <span>🥋</span> <span class="text-xs">Atleta de Jiu-Jitsu</span>
+                            </div>
+                            <div class="bg-gray-800/50 p-2 rounded border border-gray-700 flex items-center gap-2">
+                                <span>🎮</span> <span class="text-xs">Gamer & Modder</span>
+                            </div>
+                            <div class="bg-gray-800/50 p-2 rounded border border-gray-700 flex items-center gap-2 col-span-2">
+                                <span>🎬</span> <span class="text-xs">Cinéfilo de filmes ruins (qualidade duvidosa)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-white text-base mb-2 flex items-center gap-2">
+                            🖥️ Setup / Hardware
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">CPU:</span> <span>Ryzen 9 7900X3D</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">GPU:</span> <span>RTX 4090 Gaming OC 24GB</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">RAM:</span> <span>16GB Kingston Fury DDR5</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">Mobo:</span> <span>Gigabyte B650M Gaming X</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">Cooler:</span> <span>Superframe Isengard 360mm</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">PSU:</span> <span>MSI MPG A850G</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">Case:</span> <span>MasterCase H500P Mesh</span></div>
+                            <div class="flex justify-between border-b border-gray-700 pb-1"><span class="text-blue-400">Storage:</span> <span>2TB (Kingston + Adata)</span></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-white text-base mb-2 flex items-center gap-2">
+                            ⌨️ Periféricos
+                        </h3>
+                        <ul class="grid grid-cols-1 gap-1 text-xs">
+                            <li class="flex items-center gap-2"><span class="text-purple-400">Keyboard:</span> Akko MOD 007PC (7th Anniv.)</li>
+                            <li class="flex items-center gap-2"><span class="text-purple-400">Mouse:</span> Logitech G PRO Superlight</li>
+                            <li class="flex items-center gap-2"><span class="text-purple-400">Headset:</span> KZXT</li>
+                            <li class="flex items-center gap-2"><span class="text-purple-400">Monitores:</span> AOC Legend 27" (240Hz) + AOC Hero (144Hz)</li>
+                        </ul>
+                    </div>
+                </div>
+                <button id="closePopup" class="mt-5 w-full py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 rounded-md font-bold transition shadow-md border border-blue-400/30 text-sm uppercase tracking-wider">Fechar Acesso</button>
+            </div>
+        </div>
+
+        <div id="servicePopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50 backdrop-blur-sm">
+            <div class="bg-[#1b2838] p-6 rounded-xl max-w-md w-full text-white border border-gray-700 shadow-2xl transform transition-all scale-100">
+                <h2 id="serviceTitle" class="text-xl font-bold mb-4 border-b border-purple-500 pb-2 flex items-center gap-2 text-purple-400">
+                    </h2>
+                <div class="text-sm leading-6 text-gray-300">
+                    <p id="serviceDesc">
+                        </p>
+                </div>
+                <button id="closeServicePopup" class="mt-6 w-full py-2 bg-gray-700 hover:bg-gray-600 rounded-md font-bold transition shadow-md border border-gray-600">Voltar</button>
+            </div>
+        </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const videoElement = document.getElementById('background-video');
+            const sourceElement = videoElement.querySelector('source');
+
+            // 1. VÍDEO ALEATÓRIO
+            const videoSources = [
+                'https://shared.fastly.steamstatic.com/community_assets/images/items/2322010/020e5b69ac509aace5e86bb2f8a7c9d3576f9039.webm',
+                'https://shared.fastly.steamstatic.com/community_assets/images/items/1263950/4d466f77edf3265a253fba79d47bc91a37e34920.webm',
+                'https://shared.fastly.steamstatic.com/community_assets/images/items/774171/c8d502bf002baf521032f63869bac47472ef2f53.webm'
+            ];
+            const randomIndex = Math.floor(Math.random() * videoSources.length);
+            sourceElement.src = videoSources[randomIndex];
+            videoElement.load();
+
+            // 2. LOADING SCREEN
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                videoElement.play().catch(e => console.log("Autoplay bloqueado pelo navegador até interação"));
+            }, 3500); 
+
+            // 3. POPUP DE PERFIL
+            const viewBtn = document.getElementById('viewProfileBtn');
+            const popup = document.getElementById('profilePopup');
+            const closeBtn = document.getElementById('closePopup');
+
+            viewBtn.addEventListener('click', (e) => { e.preventDefault(); popup.classList.remove('hidden'); });
+            closeBtn.addEventListener('click', () => popup.classList.add('hidden'));
+            popup.addEventListener('click', e => { if(e.target === popup) popup.classList.add('hidden'); });
+
+            // 4. POPUP DE SERVIÇOS
+            const serviceItems = document.querySelectorAll('.service-item');
+            const servicePopup = document.getElementById('servicePopup');
+            const closeServiceBtn = document.getElementById('closeServicePopup');
+            const serviceTitle = document.getElementById('serviceTitle');
+            const serviceDesc = document.getElementById('serviceDesc');
+
+            // Adiciona clique em cada serviço
+            serviceItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Pega os dados do HTML
+                    const title = item.getAttribute('data-title');
+                    const desc = item.getAttribute('data-desc');
+                    
+                    // Preenche o popup
+                    serviceTitle.textContent = title;
+                    serviceDesc.textContent = desc;
+                    
+                    // Mostra o popup
+                    servicePopup.classList.remove('hidden');
+                });
+            });
+
+            // Fechar popup de serviço
+            closeServiceBtn.addEventListener('click', () => servicePopup.classList.add('hidden'));
+            servicePopup.addEventListener('click', (e) => { 
+                if(e.target === servicePopup) servicePopup.classList.add('hidden'); 
+            });
+        });
+    </script>
+</body>
+</html>
