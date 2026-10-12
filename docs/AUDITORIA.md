@@ -48,4 +48,4 @@ Limites: sem pontuação Lighthouse/Core Web Vitals, teste com leitor de tela, a
 
 ## Publicação
 
-Proposta em branch separada e PR em rascunho. Não fazer merge enquanto os cases e o currículo não forem revisados. Nenhuma mudança deve ser enviada diretamente à main. Confirmar a configuração de hospedagem antes de promover o PR; serviços externos podem gerar previews automaticamente.
+Proposta publicada na branch feat/portfolio-elo4. A criação do PR em rascunho pelo GitHub conectado retornou HTTP 403 (Resource not accessible by integration); abrir o PR pela interface do GitHub. Não fazer merge enquanto os cases e o currículo não forem revisados. Nenhuma mudança deve ser enviada diretamente à main. Confirmar a configuração de hospedagem antes de promover o PR; serviços externos podem gerar previews automaticamente.
